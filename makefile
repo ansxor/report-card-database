@@ -6,5 +6,7 @@
 
 reportcard: report_card.c database.c main.c
 	clang $^ -o $@
+	./$@
+
 
 # end

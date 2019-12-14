@@ -1,0 +1,37 @@
+#+TITLE:   Report Card Assignment
+#+DATE:    December 14, 2019
+
+* Using the database system
+** Creating a database
+To create an instance of the database, simply create a variable with
+type ~stdb~ and allocate memory to the data using ~malloc~.
+
+#+BEGIN_SRC c
+struct stdb db;
+db.data = malloc(0);
+#+END_SRC
+
+Since this is also an unsafe way to manage memory, we must also free
+the database data at the end of the program using ~free~.
+
+#+BEGIN_SRC c
+free(db.data);
+#+END_SRC
+** Manipulating the database
+*** Writing new entries
+Use ~stdb_addentry~ to add entries to the database.
+#+BEGIN_SRC c
+struct report_card rc = {.marks = {80, 80, 80}};
+struct student st = {.id = 10, .cycle = 2, .grade = 11, .first_name="Joe", .last_name="Mama", .report=rc};
+stdb_addentry(&db, st);
+#+END_SRC
+*** Removing existing entries
+**** TODO The last entry of the database
+#+BEGIN_SRC c
+stdb_popentry(&db);
+#+END_SRC
+**** TODO By index
+#+BEGIN_SRC c
+// removes the first entry from the database
+stdb_removeentry(&db, 0);
+#+END_SRC

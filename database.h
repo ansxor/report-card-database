@@ -18,6 +18,10 @@ typedef struct stdb {
 void stdb_refresh(struct stdb *db);
 // add an entry to the database
 void stdb_addentry(struct stdb *db, struct student st);
+// removes an entry from the database by index
+// void stdb_removeentry(struct stdb *db, int index);
+// removes the last entry of the database
+// void stdb_popentry(struct stdb *db);
 // stores a copy of the database in a file
 void stdb_writetofile(struct stdb db, const char *filename);
 // reads a file containing database data and puts into a database

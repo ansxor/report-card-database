@@ -4,14 +4,34 @@
 #include "database.h"
 
 void stdb_refresh(struct stdb *db) {
-  db->data = realloc(db->data, sizeof(struct student) * db->size);
+  db->data = (struct student*) realloc(db->data, sizeof(struct student) * (db->size + 1));
 }
 
 void stdb_addentry(struct stdb *db, struct student st) {
-  db->size++;
+  printf("owo");
   stdb_refresh(db);
-  db->data[db->size - 1] = st;
+  db->data[db->size++] = st;
 }
+
+/*
+void stdb_removeentry(struct stdb *db, int ind) {
+  struct stdb newdb;
+  newdb.data = malloc(0);
+  newdb.size = db->size - 1;
+  stdb_refresh(&newdb);
+  // get the head of the database
+  for (int i = 0; i < ind; i++)
+    newdb.data[i] = db->data[i];
+  // get the tail of the database
+  for (int i = ind; i < newdb.size; i++)
+    newdb.data[ind+i] = db->data[ind+i+1];
+  db = &newdb;
+}
+
+void stdb_popentry(struct stdb *db) {
+  stdb_removeentry(db, db->size-1);
+}
+*/
 
 void stdb_writetofile(struct stdb db, const char *fn) {
   FILE *dbfile;

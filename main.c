@@ -19,8 +19,9 @@ int main() {
     struct report_card rc;
     rc = (struct report_card) {.marks = {80, 80, 80}};
 
-    stdb_addentry(&db, (struct student) {.id = 20, .cycle = 3, .grade = 11, .first_name = "Darien", .last_name = "Reese", .report = rc});
-    stdb_addentry(&db, (struct student) {.id = 20, .cycle = 3, .grade = 11, .first_name = "Sage", .last_name = "Melancon", .report = rc});
+    stdb_addentry(&db, (struct student) {.id = 20, .cycle = 3, .grade = 11, .first_name = "Apple", .last_name = "Jack", .report = rc});
+    stdb_addentry(&db, (struct student) {.id = 20, .cycle = 3, .grade = 11, .first_name = "Joe", .last_name = "Mama", .report = rc});
+    stdb_addentry(&db, (struct student) {.id = 20, .cycle = 3, .grade = 11, .first_name = "heck", .last_name = "apple", .report = rc});
 
     // write the database to a file
     stdb_writetofile(db, "student.dat");
@@ -30,7 +31,12 @@ int main() {
 
     // now, print the first name of each of the entries
     for (int i = 0; i < db2.size; i++)
-        printf("\n%d %s\n", i, db2.data[i].first_name);
+        printf("\n[%d] %s\n", i, db2.data[i].first_name);
+
+    // test removing an entry from the entries and display new entries
+    // stdb_popentry(&db2);
+    // free(&db2.data);
+    // free(&db.data);
 
     return 0;
 }
