@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "database.h"
 
@@ -8,30 +9,9 @@ void stdb_refresh(struct stdb *db) {
 }
 
 void stdb_addentry(struct stdb *db, struct student st) {
-  printf("owo");
   stdb_refresh(db);
   db->data[db->size++] = st;
 }
-
-/*
-void stdb_removeentry(struct stdb *db, int ind) {
-  struct stdb newdb;
-  newdb.data = malloc(0);
-  newdb.size = db->size - 1;
-  stdb_refresh(&newdb);
-  // get the head of the database
-  for (int i = 0; i < ind; i++)
-    newdb.data[i] = db->data[i];
-  // get the tail of the database
-  for (int i = ind; i < newdb.size; i++)
-    newdb.data[ind+i] = db->data[ind+i+1];
-  db = &newdb;
-}
-
-void stdb_popentry(struct stdb *db) {
-  stdb_removeentry(db, db->size-1);
-}
-*/
 
 void stdb_writetofile(struct stdb db, const char *fn) {
   FILE *dbfile;
@@ -72,14 +52,25 @@ void stdb_readfromfile(struct stdb *db, const char *fn) {
   fclose(dbfile);
 }
 
-void stdb_getbyfirstname(struct stdb db, const char* name, struct student *st) {
-  for (int i = 0; i < db.size; i++) {
-    if (db.data[i].first_name == name) {
-      st = &db.data[i];
-      return;
-    }
-  }
-  fprintf(stderr, "\nNo student in the database with the first name of '%s'", name);
-  struct student dummy;
-  st = &dummy;
+int stdb_indexbyfirstname(struct stdb db, const char *sn) {
+  for (int i = 0; i < db.size; i++)
+    if (strcmp(db.data[i].first_name, sn) == 0)
+      return i;
+  return -1;
+}
+
+// this is an awful and slow way to do it but im too lazy to find
+// another method for the time being
+void stdb_deleteentry(struct stdb *db, int index) {
+  // clone the existing database to a new one, not including the position at the index
+  struct stdb newdb = {.size=0, .data=NULL};
+  for (int i = 0; i < db->size; i++)
+    if (i != index)
+      stdb_addentry(&newdb, db->data[i]);
+  // wipe current database
+  db->size = 0;
+  stdb_refresh(db);
+  // write into current database
+  db->size = newdb.size;
+  db->data = newdb.data;
 }

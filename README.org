@@ -4,15 +4,14 @@
 * Using the database system
 ** Creating a database
 To create an instance of the database, simply create a variable with
-type ~stdb~ and allocate memory to the data using ~malloc~.
+type ~stdb~ and set these *exact* default values to initialize it.
 
 #+BEGIN_SRC c
-struct stdb db;
-db.data = malloc(0);
+struct stdb db = {.data = NULL, .size = 0};
 #+END_SRC
 
-Since this is also an unsafe way to manage memory, we must also free
-the database data at the end of the program using ~free~.
+Since this uses an unsafe way to manage memory, we must also free
+the database data at the end of its usage using ~free~.
 
 #+BEGIN_SRC c
 free(db.data);
